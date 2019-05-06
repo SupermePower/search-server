@@ -1,0 +1,21 @@
+stall_lock:{
+	  "id":"",
+	  "project_id":"",
+	  "project_name":"",
+	  "stall_id":"",
+	  "stall_name":"",
+	  "merchant_name":"",
+	  "merchant_id":"",
+	  "user_id":"",
+	  "user_name":"",
+	  "lock_start_time":"",
+	  "lock_end_time":"",
+	  "delay":"",
+	  "delay_end_time":"",
+	  "is_valid":"",
+	  "is_delete":"",
+	  "create_time":"",
+	  "update_time":"",
+	  "status":"",
+	  "stage":""
+	}

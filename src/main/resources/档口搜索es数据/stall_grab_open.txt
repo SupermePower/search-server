@@ -1,0 +1,13 @@
+stall_grab_open:{
+	  "id":"",
+	  "project_id":"",
+	  "project_name":"",
+	  "stall_id":"",
+	  "stall_name":"",
+	  "open_type":"",
+	  "release_time":"",
+	  "is_grabbed":"",
+	  "is_delete":"",
+	  "create_time":"",
+	  "update_time":""
+	}
