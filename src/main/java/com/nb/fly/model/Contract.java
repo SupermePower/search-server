@@ -6,6 +6,9 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
 /**
  * @author liying.fu
  * @description 签约信息
@@ -17,47 +20,45 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @Document(indexName = "commerce", type = "contract")
 public class Contract {
     @Id
-    private String id;
-    private String paymentId;
-    private String merchantId;
+    private Long id;
+    private Long paymentId;
+    private Long merchantId;
     private String businessUserId;
     private String businessUserName;
     private String businessUserTel;
-    private String projectId;
+    private Long projectId;
     private String projectName;
-    private String stallId;
+    private Long stallId;
     private String stallName;
     private String contact;
     private String contactTel;
-    private String contractTime;
+    private Timestamp contractTime;
     private String underLineUserId;
     private String underLineUserName;
     private String underLineUserTel;
-    private String enterTime;
-    private String leaveTime;
-    private String startTime;
-    private String endTime;
-    private String paymentType;
+    private Timestamp enterTime;
+    private Timestamp leaveTime;
+    private Timestamp startTime;
+    private Timestamp endTime;
+    private Long paymentType;
     private String paymentTypeName;
-    private String discountType;
-    private String slottingFee;
-    private String slottingDiscount;
-    private String slottingPayment;
-    private String rentFee;
-    private String rentDiscount;
-    private String rentPayment;
-    private String createTime;
-    private String updateTime;
-    private String isDelete;
-    private String status;
-    private String developmentCycle;
-    private String parentContract;
-    private String delayReleaseTime;
-    private String branchNo;
-    private String replaceOperation;
-    private String isRenewal;
-    private String isValid;
-    private String subletContractId;
-    private String contractPeriod;
-    private String adjustmentTime;
+    private Long discountType;
+    private BigDecimal slottingFee;
+    private BigDecimal slottingDiscount;
+    private BigDecimal slottingPayment;
+    private BigDecimal rentFee;
+    private BigDecimal rentDiscount;
+    private BigDecimal rentPayment;
+    private Timestamp createTime;
+    private Timestamp updateTime;
+    private Integer status;
+    private Integer developmentCycle;
+    private Long parentContract;
+    private Timestamp delayReleaseTime;
+    private Integer branchNo;
+    private Byte replaceOperation;
+    private Integer isRenewal;
+    private Long subletContractId;
+    private Integer contractPeriod;
+    private Timestamp adjustmentTime;
 }

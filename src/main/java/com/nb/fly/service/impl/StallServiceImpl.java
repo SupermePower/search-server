@@ -1,14 +1,18 @@
 package com.nb.fly.service.impl;
 
+import com.nb.fly.model.Project;
 import com.nb.fly.model.Stall;
+import com.nb.fly.repository.ProjectRepository;
 import com.nb.fly.repository.StallRepository;
 import com.nb.fly.request.QueryStallRequest;
 import com.nb.fly.service.StallService;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author fly
@@ -21,6 +25,9 @@ public class StallServiceImpl implements StallService {
 
     @Autowired
     private StallRepository stallRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
 
 
     /**
@@ -41,8 +48,11 @@ public class StallServiceImpl implements StallService {
      * @return 档口集合
      */
     @Override
-    public List<Stall> stallList(QueryStallRequest request) {
-        return stallRepository.findByStallsName(request.getStallName());
+    public Page<Stall> stallList(QueryStallRequest request) {
+        Project byProjectName = projectRepository.findByProjectName(request.getName());
+        QueryBuilder queryBuilder = QueryBuilders.boolQuery()
+                .must(QueryBuilders.matchQuery("projectId", byProjectName.getProjectId()));
+        return stallRepository.search(queryBuilder, PageRequest.of(1, 4));
     }
 
     /**
@@ -52,6 +62,7 @@ public class StallServiceImpl implements StallService {
      */
     @Override
     public void update(Stall stall) {
-        stallRepository.save(stall);
+        Stall updateStall = stallRepository.save(stall);
+        log.info("update result -> {}", updateStall);
     }
 }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nb.fly.mapper.ContractMapper">
+
+    <resultMap id="allContract" type="com.nb.fly.model.Contract">
+        <id column="id" property="id"/>
+        <result column="merchant_id" property="merchantId"/>
+        <result column="business_user_id" property="businessUserId"/>
+        <result column="business_user_name" property="businessUserName"/>
+        <result column="business_user_tel" property="businessUserTel"/>
+        <result column="project_id" property="projectId"/>
+        <result column="project_name" property="projectName"/>
+        <result column="stall_id" property="stallId"/>
+        <result column="stall_name" property="stallName"/>
+        <result column="contact" property="contact"/>
+        <result column="contact_tel" property="contactTel"/>
+        <result column="contract_time" property="contractTime"/>
+        <result column="under_line_user_name" property="underLineUserName"/>
+        <result column="enter_time" property="enterTime"/>
+        <result column="leave_time" property="leaveTime"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="payment_type" property="paymentType"/>
+        <result column="payment_type_name" property="paymentTypeName"/>
+        <result column="discount_type" property="discountType"/>
+        <result column="slotting_fee" property="slottingFee"/>
+        <result column="slotting_discount" property="slottingDiscount"/>
+        <result column="slotting_payment" property="slottingPayment"/>
+        <result column="rent_fee" property="rentFee"/>
+        <result column="rent_discount" property="rentDiscount"/>
+        <result column="rent_payment" property="rentPayment"/>
+        <result column="status" property="status"/>
+        <result column="development_cycle" property="developmentCycle"/>
+        <result column="parent_contract" property="parentContract"/>
+        <result column="delay_release_time" property="delayReleaseTime"/>
+        <result column="branch_no" property="branchNo"/>
+        <result column="sublet_contract_id" property="subletContractId"/>
+        <result column="is_renewal" property="isRenewal"/>
+        <result column="contract_period" property="contractPeriod"/>
+        <result column="adjustment_time" property="adjustmentTime"/>
+    </resultMap>
+
+    <select id="allContract" resultMap="allContract">
+        select * from contract where is_delete = 0 and is_valid = 1
+    </select>
+
+</mapper>

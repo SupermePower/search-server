@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nb.fly.mapper.ProjectMapper">
+    <resultMap id="allProjects" type="com.nb.fly.model.Project">
+        <id column="project_id" property="projectId"/>
+        <result column="project_name" property="projectName"/>
+        <result column="stalls_num" property="stallsNum"/>
+        <result column="status" property="status"/>
+        <result column="openning_hours" property="openningHours"/>
+        <result column="area_id" property="areaId"/>
+        <result column="area_name" property="areaName"/>
+        <result column="signing_time" property="signingTime"/>
+        <result column="expire_time" property="expireTime"/>
+        <result column="lease_period" property="leasePeriod"/>
+        <result column="project_nature" property="projectNature"/>
+        <result column="basic_battery" property="basicBattery"/>
+        <result column="smoke_exhaust" property="smokeExhaust"/>
+        <result column="smoke_exhaust_pipe" property="smokeExhaustPipe"/>
+        <result column="gas_meter" property="gasMeter"/>
+        <result column="construction_area" property="constructionArea"/>
+        <result column="dine" property="dine"/>
+        <result column="operating_time" property="operatingTime"/>
+        <result column="engineering_stage" property="engineeringStage"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="early_warning" property="earlyWarning"/>
+        <result column="gas_stalls_num" property="gasStallsNum"/>
+        <result column="parish_food_stalls_num" property="parishFoodStallsNum"/>
+        <result column="rated_electric_quantit" property="ratedElectricQuantit"/>
+        <result column="increase_electricity" property="increaseElectricity"/>
+        <result column="air_conditioner" property="airConditioner"/>
+        <result column="heating" property="heating"/>
+        <result column="table_numbers" property="tableNumbers"/>
+        <result column="chair_numbers" property="chairNumbers"/>
+        <result column="usage_rate" property="usageRate"/>
+        <result column="floor" property="floor"/>
+        <result column="old_new" property="oldNew"/>
+        <result column="diameter_water_supply" property="diameterWaterSupply"/>
+        <result column="use_area" property="useArea"/>
+        <result column="cable_size" property="cableSize"/>
+        <result column="electric_box_open" property="electricBoxOpen"/>
+        <result column="water_separation_meter" property="waterSeparationMeter"/>
+        <result column="gas_separation_meter" property="gasSeparationMeter"/>
+        <result column="watt_hour_meter" property="wattHourMeter"/>
+        <result column="general_gas_meter" property="generalGasMeter"/>
+        <result column="gas_flow" property="gasFlow"/>
+        <result column="business_status" property="businessStatus"/>
+        <result column="sewer_count" property="sewerCount"/>
+        <result column="deliver_status" property="deliverStatus"/>
+        <result column="investment_time" property="investmentTime"/>
+        <result column="basic_battery" property="basicBattery"/>
+    </resultMap>
+
+    <select id="allProjects" resultMap="allProjects">
+        select * from project where is_delete = 0
+    </select>
+</mapper>

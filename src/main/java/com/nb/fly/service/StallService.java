@@ -2,6 +2,7 @@ package com.nb.fly.service;
 
 import com.nb.fly.model.Stall;
 import com.nb.fly.request.QueryStallRequest;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface StallService {
      * @param request 请求参数
      * @return 档口集合
      */
-    List<Stall> stallList(QueryStallRequest request);
+    Page<Stall> stallList(QueryStallRequest request);
 
     /**
      * 修改档口信息

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nb.fly.mapper.StallMapper">
+    <resultMap id="allStalls" type="com.nb.fly.model.Stall">
+        <id property="stallsId" column="stalls_id"/>
+        <result property="stallsName" column="stalls_name"/>
+        <result property="projectId" column="project_id"/>
+        <result property="offlineDocker" column="offline_docker"/>
+        <result property="businessStatus" column="business_status"/>
+        <result property="floor" column="floor"/>
+        <result property="entryFee" column="entry_fee"/>
+        <result property="monthlyRent" column="monthly_rent"/>
+        <result property="gas" column="gas"/>
+        <result property="smokeExhaust" column="smoke_exhaust"/>
+        <result property="exhaustSmokeLevel" column="exhaust_smoke_level"/>
+        <result property="constructionArea" column="construction_area"/>
+        <result property="usageRate" column="usage_rate"/>
+        <result property="occlusion" column="occlusion"/>
+        <result property="basicBattery" column="basic_battery"/>
+        <result property="airConditioning" column="air_conditioning"/>
+        <result property="houseType" column="house_type"/>
+        <result property="diningOutlet" column="dining_outlet"/>
+        <result property="sewageRoom" column="sewage_room"/>
+        <result property="signingTime" column="signing_time"/>
+        <result property="stallsLevel" column="stalls_level"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="scopeOperation" column="scope_operation"/>
+        <result property="waterMeterModel" column="water_meter_model"/>
+        <result property="waterMeterInitReading" column="water_meter_init_reading"/>
+        <result property="gasMeterModel" column="gas_meter_model"/>
+        <result property="gasMeterInitReading" column="gas_meter_init_reading"/>
+        <result property="gasMeter" column="gas_meter"/>
+        <result property="gasFlow" column="gas_flow"/>
+        <result property="ammeterModel" column="ammeter_model"/>
+        <result property="ammeterInitReading" column="ammeter_init_reading"/>
+        <result property="airSwitch" column="air_switch"/>
+        <result property="parishFood" column="parish_food"/>
+        <result property="increaseCapacity" column="increase_capacity"/>
+        <result property="reform" column="reform"/>
+        <result property="decantor" column="decantor"/>
+        <result property="internalFan" column="internal_fan"/>
+        <result property="offlineDockerTel" column="offline_docker_tel"/>
+        <result property="isRent" column="is_rent"/>
+        <result property="businessNature" column="business_nature"/>
+        <result property="stallsGas" column="stalls_gas"/>
+        <result property="assistInvestmentPromotion" column="assist_investment_promotion"/>
+    </resultMap>
+
+    <select id="allStalls" resultMap="allStalls">
+        select * from stalls where is_delete = 0;
+    </select>
+
+</mapper>

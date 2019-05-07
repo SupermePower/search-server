@@ -1,6 +1,8 @@
 package com.nb.fly.repository;
 
+import com.nb.fly.model.Project;
 import com.nb.fly.model.Stall;
+import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,8 +19,10 @@ public interface StallRepository extends ElasticsearchRepository<Stall, Long> {
     /**
      * 获取档口集合
      *
-     * @param stallName 档口名称
+     * @param projectId 档口名称
      * @return 档口集合
      */
-    List<Stall> findByStallsName(String stallName);
+    List<Stall> findByProjectId(Long projectId);
+
+
 }

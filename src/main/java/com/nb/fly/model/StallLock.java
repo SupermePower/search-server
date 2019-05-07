@@ -6,7 +6,7 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * @author liying.fu
@@ -26,15 +26,14 @@ public class StallLock {
     private String stallName;
     private String merchantName;
     private Long merchantId;
-    private Long userId;
+    private String userId;
     private String userName;
-    private Date lockStartTime;
-    private Date lockEndTime;
+    private Timestamp lockStartTime;
+    private Timestamp lockEndTime;
     private Byte delay;
-    private Date delayEndTime;
-    private Byte isValid;
-    private Date createTime;
-    private Date updateTime;
-    private Byte status;
-    private Byte stage;
+    private Timestamp delayEndTime;
+    private Timestamp createTime;
+    private Timestamp updateTime;
+    private Integer status;
+    private Integer stage;
 }
