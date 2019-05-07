@@ -53,4 +53,88 @@
         select * from stalls where is_delete = 0;
     </select>
 
+    <resultMap id="listAppletsStallResultMap" type="com.nb.fly.response.StallListVO">
+        <id column="stallId" property="stallId"/>
+        <result column="stallName" property="stallName"/>
+        <result column="projectId" property="projectId"/>
+        <result column="projectName" property="projectName"/>
+        <result column="area" property="area"/>
+        <result column="electricity" property="electricity"/>
+        <result column="gas" property="gas"/>
+        <result column="slotting" property="slotting"/>
+        <result column="rent" property="rent"/>
+        <result column="projectStatus" property="projectStatus"/>
+        <result column="projectProperty" property="projectProperty"/>
+        <result column="stallProperty" property="stallProperty"/>
+        <result column="status" property="status"/>
+        <result column="hasLock" property="hasLock"/>
+        <result column="myStall" property="myStall"/>
+        <result column="assistInvestmentPromotion" property="assistInvestmentPromotion"/>
+        <result column="merchantId" property="merchantId"/>
+        <result column="secondClassificationName" property="secondClassificationName"/>
+    </resultMap>
+
+
+    <select id="listAppletsStall"
+            resultMap="listAppletsStallResultMap">
+        select
+        project.project_id as projectId,
+        project.project_name as projectName,
+        stalls.stalls_id as stallId,
+        stalls.stalls_name as stallName,
+        stalls.construction_area as area,
+        stalls.basic_battery as electricity,
+        stalls.gas as gas,
+        stalls.entry_fee as slotting,
+        stalls.monthly_rent as rent,
+        project.status as projectStatus,
+        project.old_new as projectProperty,
+        stalls.stalls_level as stallProperty,
+        stalls.status as status,
+        stalls.assist_investment_promotion as assistInvestmentPromotion,
+        contract.merchant_id as merchantId
+        from
+        stalls join project on stalls.project_id = project.project_id
+        <!-- 关联有效的档口锁定记录，用于判断档口是否被锁定 -->
+        left join stall_lock slock on stalls.stalls_id = slock.stall_id and slock.is_valid = 1 and slock.is_delete = 0
+        <!-- 关联有效的抢占记录，用于区分档口所属的抢占类型(普通档口、11点档档口、15点档档口) -->
+        left join stall_grab_open grabOpen on stalls.stalls_id = grabOpen.stall_id and grabOpen.is_delete = 0
+        <!-- 关联有效的签约记录，用于查出签约商户以及档口是否可预订(已签约的档口没有有效的锁定记录) -->
+        left join contract on contract.stall_id = stalls.stalls_id and contract.is_valid = 1 and contract.is_delete = 0
+        and contract.status in (101,301,302,501)
+        where stalls.is_delete = 0 and project.is_delete = 0
+        order by myStall desc, hasLock, project.project_id, stalls.stalls_id
+    </select>
+
+    <select id="appletStall" parameterType="java.lang.Long"
+            resultMap="listAppletsStallResultMap">
+        select
+        project.project_id as projectId,
+        project.project_name as projectName,
+        stalls.stalls_id as stallId,
+        stalls.stalls_name as stallName,
+        stalls.construction_area as area,
+        stalls.basic_battery as electricity,
+        stalls.gas as gas,
+        stalls.entry_fee as slotting,
+        stalls.monthly_rent as rent,
+        project.status as projectStatus,
+        project.old_new as projectProperty,
+        stalls.stalls_level as stallProperty,
+        stalls.status as status,
+        stalls.assist_investment_promotion as assistInvestmentPromotion,
+        contract.merchant_id as merchantId
+        from
+        stalls join project on stalls.project_id = project.project_id
+        <!-- 关联有效的档口锁定记录，用于判断档口是否被锁定 -->
+        left join stall_lock slock on stalls.stalls_id = slock.stall_id and slock.is_valid = 1 and slock.is_delete = 0
+        <!-- 关联有效的抢占记录，用于区分档口所属的抢占类型(普通档口、11点档档口、15点档档口) -->
+        left join stall_grab_open grabOpen on stalls.stalls_id = grabOpen.stall_id and grabOpen.is_delete = 0
+        <!-- 关联有效的签约记录，用于查出签约商户以及档口是否可预订(已签约的档口没有有效的锁定记录) -->
+        left join contract on contract.stall_id = stalls.stalls_id and contract.is_valid = 1 and contract.is_delete = 0
+        and contract.status in (101,301,302,501)
+        where stalls.is_delete = 0 and project.is_delete = 0 and stalls.stalls_id = #{stallId}
+        order by myStall desc, hasLock, project.project_id, stalls.stalls_id
+    </select>
+
 </mapper>

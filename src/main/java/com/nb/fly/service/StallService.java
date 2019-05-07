@@ -2,9 +2,8 @@ package com.nb.fly.service;
 
 import com.nb.fly.model.Stall;
 import com.nb.fly.request.QueryStallRequest;
+import com.nb.fly.response.StallListVO;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 /**
  * @author fly
@@ -26,7 +25,7 @@ public interface StallService {
      * @param request 请求参数
      * @return 档口集合
      */
-    Page<Stall> stallList(QueryStallRequest request);
+    Page<StallListVO> stallList(QueryStallRequest request);
 
     /**
      * 修改档口信息
@@ -34,4 +33,23 @@ public interface StallService {
      * @param stall 档口信息
      */
     void update(Stall stall);
+
+    /**
+     * 删除档口响应对象
+     *
+     * @param stallId 档口主键
+     */
+    void deleteStallVO(Long stallId);
+
+    /**
+     * 操作单个档口对象
+     *
+     * @param stallId 档口主键
+     */
+    void operationStall(Long stallId);
+
+    /**
+     * 操作档口信息
+     */
+    void operationStallList();
 }

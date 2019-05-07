@@ -1,13 +1,11 @@
 package com.nb.fly.controller;
 
-import com.nb.fly.model.Stall;
 import com.nb.fly.request.QueryStallRequest;
+import com.nb.fly.response.StallListVO;
 import com.nb.fly.service.StallService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -24,10 +22,34 @@ public class CommerceController {
 
     /**
      * 获取档口列表
+     *
      * @return 档口列表
      */
-    @GetMapping("/stall-list")
-    public Page<Stall> queryStallList(QueryStallRequest request) {
+    @GetMapping(path = "/list")
+    public Page<StallListVO> queryStallList(QueryStallRequest request) {
         return stallService.stallList(request);
+    }
+
+    /**
+     * 操作单个档口信息
+     *
+     * @param stallId 档口主键
+     * @return 操作结果
+     */
+    @PostMapping(path = "/{stallId}")
+    public String operationStall(@PathVariable Long stallId) {
+        stallService.operationStall(stallId);
+        return "SUCCESS";
+    }
+
+    /**
+     * 操作档口信息
+     *
+     * @return 操作结果
+     */
+    @PostMapping
+    public String operationStallList() {
+        stallService.operationStallList();
+        return "SUCCESS";
     }
 }

@@ -3,6 +3,8 @@ package com.nb.fly.response;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.math.BigDecimal;
 
@@ -14,13 +16,15 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ToString
+@Document(indexName = "commerce", type = "stall_list")
 public class StallListVO {
+
+    @Id
+    private Long stallId;
 
     private Long projectId;
 
     private String projectName;
-
-    private Long stallId;
 
     private String stallName;
 

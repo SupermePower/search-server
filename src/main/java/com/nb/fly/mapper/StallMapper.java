@@ -1,6 +1,7 @@
 package com.nb.fly.mapper;
 
 import com.nb.fly.model.Stall;
+import com.nb.fly.response.StallListVO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,4 +20,19 @@ public interface StallMapper {
      * @return 档口信息
      */
     List<Stall> allStalls();
+
+    /**
+     * 获取小程序档口列表
+     *
+     * @return 小程序档口列表
+     */
+    List<StallListVO> listAppletsStall();
+
+    /**
+     * 获取档口信息
+     *
+     * @param stallId 档口主键
+     * @return 档口信息
+     */
+    StallListVO appletStall(Long stallId);
 }

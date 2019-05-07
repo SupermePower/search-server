@@ -1,13 +1,14 @@
 package com.nb.fly.service.impl;
 
-import com.nb.fly.model.Project;
+import com.nb.fly.mapper.StallMapper;
 import com.nb.fly.model.Stall;
-import com.nb.fly.repository.ProjectRepository;
+import com.nb.fly.repository.StallListVORepository;
 import com.nb.fly.repository.StallRepository;
 import com.nb.fly.request.QueryStallRequest;
+import com.nb.fly.response.StallListVO;
 import com.nb.fly.service.StallService;
 import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,7 +28,10 @@ public class StallServiceImpl implements StallService {
     private StallRepository stallRepository;
 
     @Autowired
-    private ProjectRepository projectRepository;
+    private StallMapper stallMapper;
+
+    @Autowired
+    private StallListVORepository stallListVORepository;
 
 
     /**
@@ -48,11 +52,11 @@ public class StallServiceImpl implements StallService {
      * @return 档口集合
      */
     @Override
-    public Page<Stall> stallList(QueryStallRequest request) {
-        Project byProjectName = projectRepository.findByProjectName(request.getName());
-        QueryBuilder queryBuilder = QueryBuilders.boolQuery()
-                .must(QueryBuilders.matchQuery("projectId", byProjectName.getProjectId()));
-        return stallRepository.search(queryBuilder, PageRequest.of(1, 4));
+    public Page<StallListVO> stallList(QueryStallRequest request) {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        // 模糊搜索
+        boolQueryBuilder.must(QueryBuilders.fuzzyQuery("projectName", request.getName()));
+        return stallListVORepository.search(boolQueryBuilder, PageRequest.of(1, 4));
     }
 
     /**
@@ -64,5 +68,36 @@ public class StallServiceImpl implements StallService {
     public void update(Stall stall) {
         Stall updateStall = stallRepository.save(stall);
         log.info("update result -> {}", updateStall);
+    }
+
+    /**
+     * 删除档口响应对象
+     *
+     * @param stallId 档口主键
+     */
+    @Override
+    public void deleteStallVO(Long stallId) {
+        stallListVORepository.deleteById(stallId);
+    }
+
+    /**
+     * 操作单个档口对象
+     *
+     * @param stallId 档口主键
+     */
+    @Override
+    public void operationStall(Long stallId) {
+        this.deleteStallVO(stallId);
+        StallListVO stallListVO = stallMapper.appletStall(stallId);
+        stallListVORepository.save(stallListVO);
+    }
+
+    /**
+     * 批量操作档口信息
+     */
+    @Override
+    public void operationStallList() {
+        stallListVORepository.deleteAll();
+        stallMapper.listAppletsStall().forEach(stallListVO -> stallListVORepository.save(stallListVO));
     }
 }
