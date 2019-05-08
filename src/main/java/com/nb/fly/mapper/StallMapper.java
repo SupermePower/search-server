@@ -35,4 +35,12 @@ public interface StallMapper {
      * @return 档口信息
      */
     StallListVO appletStall(Long stallId);
+
+    /**
+     * 获取档口图片信息
+     *
+     * @param stallId 档口主键
+     * @return 档口图片信息
+     */
+    List<String> querySceneGraph(Long stallId);
 }

@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 档口列表VO类
@@ -16,7 +17,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ToString
-@Document(indexName = "commerce", type = "stall_list")
+@Document(indexName = "commerce", type = "stall")
 public class StallListVO {
 
     @Id
@@ -27,6 +28,8 @@ public class StallListVO {
     private String projectName;
 
     private String stallName;
+
+    private List<String> stallImageList;
 
     private BigDecimal area;
 
@@ -57,4 +60,8 @@ public class StallListVO {
     private Long merchantId;
 
     private String secondClassificationName;
+
+    private String contractUser;
+
+    private String lockUser;
 }

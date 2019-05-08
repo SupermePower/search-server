@@ -1,11 +1,13 @@
 package com.nb.fly.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.nb.fly.request.QueryStallRequest;
 import com.nb.fly.response.StallListVO;
 import com.nb.fly.service.StallService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -26,7 +28,7 @@ public class CommerceController {
      * @return 档口列表
      */
     @GetMapping(path = "/list")
-    public Page<StallListVO> queryStallList(QueryStallRequest request) {
+    public PageInfo queryStallList(QueryStallRequest request) {
         return stallService.stallList(request);
     }
 
@@ -51,5 +53,15 @@ public class CommerceController {
     public String operationStallList() {
         stallService.operationStallList();
         return "SUCCESS";
+    }
+
+    @GetMapping(path = "db")
+    public List<StallListVO> queryStallListFromDb() {
+        return stallService.queryStallListFromDb();
+    }
+
+    @GetMapping(path = "es")
+    public Iterable<StallListVO> queryStallListFromEs() {
+        return stallService.queryStallListFromEs();
     }
 }

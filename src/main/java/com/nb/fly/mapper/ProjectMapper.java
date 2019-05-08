@@ -1,6 +1,7 @@
 package com.nb.fly.mapper;
 
 import com.nb.fly.model.Project;
+import com.nb.fly.model.ProjectEarlyWarningModel;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface ProjectMapper {
      * @return 项目信息
      */
     List<Project> allProjects();
+
+    ProjectEarlyWarningModel findProjectEarlyWarningByProjectId(Long projectId);
 }

@@ -26,4 +26,29 @@
         where is_delete = 0
         and is_valid = 1
     </select>
+
+    <select id="findByUserId" resultType="com.nb.fly.model.StallLock">
+        select
+            id as id,
+            project_id as projectId,
+            project_name as projectName,
+            stall_id as stallId,
+            stall_name as stallName,
+            merchant_name as merchantName,
+            merchant_id as merchantId,
+            user_id as userId,
+            user_name as userName,
+            lock_start_time as lockStartTime,
+            lock_end_time as lockEndTime,
+            delay as delay,
+            delay_end_time as delayEndTime,
+            create_time as createTime,
+            update_time as updateTime,
+            status as status,
+            stage as stage
+        from stall_lock
+        where is_delete = 0
+        and is_valid = 1
+        and user_id = #{userId}
+    </select>
 </mapper>

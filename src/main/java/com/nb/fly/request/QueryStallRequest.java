@@ -26,7 +26,7 @@ public class QueryStallRequest {
     /**
      * 档口性质
      */
-    private List<String> stallProperty;
+    private String stallProperty;
 
     /**
      * 最小价格
@@ -51,7 +51,7 @@ public class QueryStallRequest {
     /**
      * 最小基础电量
      */
-    private BigDecimal  minElectricity;
+    private BigDecimal minElectricity;
 
     /**
      * 最大基础电量
@@ -97,4 +97,14 @@ public class QueryStallRequest {
      * 城市ID
      */
     private Set<Integer> cityIdList;
+
+    /**
+     * 当前页
+     */
+    private Integer startPage;
+
+    /**
+     * 每页记录数
+     */
+    private Integer pageSize;
 }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nb.fly.mapper.MerchantMapper">
+    <select id="listMerchantByMerchantId" parameterType="java.util.Set"
+            resultType="com.nb.fly.response.MerchantListVO">
+        select pool.id as id,
+        pool.brand as brand,
+        pool.linkman as contract,
+        pool.first_classification_name as firstClassification,
+        pool.second_classification_name as secondClassification,
+        pool.city_name as city,
+        pool.create_time as createTime,
+        pool.name as merchantName,
+        pool.number_store as numberStore,
+        pool.phone_no as phoneNo,
+        pool.level_name as merchantLevel,
+        pool.type as merchantType
+        from public_sea_pool pool
+        where pool.is_delete = 0
+        <if test="merchantIdSet != null and merchantIdSet.size > 0">
+            and pool.id in
+            <foreach collection="merchantIdSet" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="merchantById" parameterType="java.lang.Long"
+            resultType="com.nb.fly.response.MerchantListVO">
+        select pool.id as id,
+        pool.brand as brand,
+        pool.linkman as contract,
+        pool.first_classification_name as firstClassification,
+        pool.second_classification_name as secondClassification,
+        pool.city_name as city,
+        pool.create_time as createTime,
+        pool.name as merchantName,
+        pool.number_store as numberStore,
+        pool.phone_no as phoneNo,
+        pool.level_name as merchantLevel,
+        pool.type as merchantType
+        from public_sea_pool pool
+        where pool.is_delete = 0
+            and pool.id = #{merchantId}
+
+    </select>
+</mapper>

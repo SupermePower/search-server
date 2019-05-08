@@ -1,5 +1,6 @@
 package com.nb.fly.stall;
 
+import com.github.pagehelper.PageInfo;
 import com.nb.fly.mapper.StallMapper;
 import com.nb.fly.model.Stall;
 import com.nb.fly.request.QueryStallRequest;
@@ -44,7 +45,7 @@ public class StallTest {
     public void stallListTest() {
         QueryStallRequest request = new QueryStallRequest();
         request.setName("百脑汇");
-        Page<StallListVO> stallListVOS = stallService.stallList(request);
+        PageInfo<StallListVO> stallListVOS = stallService.stallList(request);
         System.out.println(stallListVOS);
     }
 

@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * @date: 2019/5/7 下午11:15
  */
 @Repository
-public interface StallListVORepository extends ElasticsearchRepository<StallListVO, Long> {
+public interface StallListVoRepository extends ElasticsearchRepository<StallListVO, Long> {
 }

@@ -55,4 +55,20 @@
     <select id="allProjects" resultMap="allProjects">
         select * from project where is_delete = 0
     </select>
+
+    <select id="findProjectEarlyWarningByProjectId" parameterType="java.lang.Long"
+            resultType="com.nb.fly.model.ProjectEarlyWarningModel">
+        select
+            id as id,
+            project_id as projectId,
+            schema_name as schemaName,
+            stalls_num as stallsNum,
+            rent_discount as rentDiscount,
+            slotting_discount as slottingDiscount,
+            is_valid as valid,
+            active_time as activeTime,
+            is_execute as execute
+        from project_early_warning
+        where is_delete = 0 and is_valid = 1 and project_id = #{projectId}
+    </select>
 </mapper>

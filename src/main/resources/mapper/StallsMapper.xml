@@ -103,7 +103,7 @@
         left join contract on contract.stall_id = stalls.stalls_id and contract.is_valid = 1 and contract.is_delete = 0
         and contract.status in (101,301,302,501)
         where stalls.is_delete = 0 and project.is_delete = 0
-        order by myStall desc, hasLock, project.project_id, stalls.stalls_id
+        order by project.project_id, stalls.stalls_id
     </select>
 
     <select id="appletStall" parameterType="java.lang.Long"
@@ -134,7 +134,11 @@
         left join contract on contract.stall_id = stalls.stalls_id and contract.is_valid = 1 and contract.is_delete = 0
         and contract.status in (101,301,302,501)
         where stalls.is_delete = 0 and project.is_delete = 0 and stalls.stalls_id = #{stallId}
-        order by myStall desc, hasLock, project.project_id, stalls.stalls_id
+        order by project.project_id, stalls.stalls_id
+    </select>
+
+    <select id="querySceneGraph" resultType="java.lang.String" parameterType="java.lang.Long">
+      select image_url from stalls_img where stalls_id = #{stallId} and type = '0'
     </select>
 
 </mapper>

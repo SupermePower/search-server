@@ -14,4 +14,6 @@ import java.util.List;
 public interface StallLockMapper {
 
     List<StallLock> allStallLock();
+
+    List<StallLock> findByUserId(String userId);
 }
