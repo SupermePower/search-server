@@ -1,26 +1,16 @@
 package com.nb.fly.helper;
 
 import com.github.pagehelper.PageInfo;
-import com.nb.fly.response.StallListVO;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @description 获取分页对象
  * @author: fly
  * @date: 2019/1/14 18:56
  */
-@Setter
-@Getter
 @Component
 public class PageInfoHelper<T> {
-
-    private T t;
-
 
     /**
      * 获取分页对象

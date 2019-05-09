@@ -10,9 +10,9 @@ import java.util.Date;
 
 
 /**
- * 商户列表model类
- * @author hsl
- * @date 2018-09-26 14:56
+ * 商户
+ * @author fly
+ * @date 2019-05-08 14:56
  */
 @Getter
 @Setter
