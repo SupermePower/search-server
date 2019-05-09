@@ -15,14 +15,11 @@ import com.nb.fly.response.StallListVO;
 import com.nb.fly.service.StallService;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -202,7 +199,7 @@ public class StallServiceImpl implements StallService {
     }
 
     /**
-     * 批量操作档口信息
+     * 批量操作档口信息（from db to es）
      */
     @Override
     public void operationStallList() {
@@ -211,12 +208,12 @@ public class StallServiceImpl implements StallService {
         List<StallLock> stallLocks = stallLockMapper.allStallLock();
         // 获取全部签约信息
         List<Contract> contracts = contractMapper.allContract();
+        // 获取商户信息
+        List<MerchantListVO> merchantList = merchantMapper.merchantList();
         stallMapper.listAppletsStall().forEach(stallListVO -> {
             // 商户二级分类
-            MerchantListVO merchantListVO = merchantMapper.merchantById(stallListVO.getMerchantId());
-            if (merchantListVO != null) {
-                stallListVO.setSecondClassificationName(merchantListVO.getSecondClassification());
-            }
+            setSecondClassification(merchantList, stallListVO);
+
             // 是否是活动期
             stallListVO.setPromotions(isInActivity(stallListVO.getProjectId()));
 
@@ -232,6 +229,26 @@ public class StallServiceImpl implements StallService {
         });
     }
 
+    /**
+     * 设置商户二级分类
+     *
+     * @param merchantList 商户集合
+     * @param stallListVO  档口信息
+     */
+    private void setSecondClassification(List<MerchantListVO> merchantList, StallListVO stallListVO) {
+        for (MerchantListVO merchant : merchantList) {
+            if (merchant.getId().equals(stallListVO.getMerchantId())) {
+                stallListVO.setSecondClassificationName(merchant.getSecondClassification());
+            }
+        }
+    }
+
+    /**
+     * 设置预定人
+     *
+     * @param stallLocks  预定信息
+     * @param stallListVO 档口信息
+     */
     private void setLockUser(List<StallLock> stallLocks, StallListVO stallListVO) {
         if (stallListVO.getStatus().equals((byte) 1) || stallListVO.getStatus().equals((byte) 2)) {
             // 设置预定人
@@ -243,6 +260,12 @@ public class StallServiceImpl implements StallService {
         }
     }
 
+    /**
+     * 设置签约人
+     *
+     * @param contracts   签约信息
+     * @param stallListVO 档口信息
+     */
     private void setContractUser(List<Contract> contracts, StallListVO stallListVO) {
         if (stallListVO.getStatus().equals((byte) 3) || stallListVO.getStatus().equals((byte) 4)) {
             // 设置签约人
@@ -254,6 +277,11 @@ public class StallServiceImpl implements StallService {
         }
     }
 
+    /**
+     * 获取全部档口信息from DB
+     *
+     * @return 档口信息
+     */
     @Override
     public List<StallListVO> queryStallListFromDb() {
         long startTime = System.currentTimeMillis();
@@ -263,6 +291,11 @@ public class StallServiceImpl implements StallService {
         return stallListVOS;
     }
 
+    /**
+     * 获取全部档口信息 from elasticsearch
+     *
+     * @return 档口信息
+     */
     @Override
     public Iterable<StallListVO> queryStallListFromEs() {
         long startTime = System.currentTimeMillis();

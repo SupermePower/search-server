@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2019/5/6 18:12
  */
 @RestController
-@RequestMapping("/commerce")
+@RequestMapping("/stall")
 public class CommerceController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class CommerceController {
      *
      * @return 档口列表
      */
-    @GetMapping(path = "/list")
+    @GetMapping
     public PageInfo queryStallList(QueryStallRequest request) {
         return stallService.stallList(request);
     }
@@ -55,11 +55,21 @@ public class CommerceController {
         return "SUCCESS";
     }
 
+    /**
+     * 测试查询全部信息从DB
+     *
+     * @return 档口信息
+     */
     @GetMapping(path = "db")
     public List<StallListVO> queryStallListFromDb() {
         return stallService.queryStallListFromDb();
     }
 
+    /**
+     * 测试获取全部信息从es
+     *
+     * @return 档口信息
+     */
     @GetMapping(path = "es")
     public Iterable<StallListVO> queryStallListFromEs() {
         return stallService.queryStallListFromEs();

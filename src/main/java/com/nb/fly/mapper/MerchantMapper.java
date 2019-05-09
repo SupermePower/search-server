@@ -30,4 +30,11 @@ public interface MerchantMapper {
      * @return 列表信息
      */
     MerchantListVO merchantById(@Param("merchantId") Long merchantId);
+
+    /**
+     * 获取商户信息
+     *
+     * @return 商户信息
+     */
+    List<MerchantListVO> merchantList();
 }
