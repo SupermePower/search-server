@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @Setter
 @Getter
 @ToString
-@Document(indexName = "commerce", type = "stall")
+@Document(indexName = "stall", type = "stall")
 public class Stall implements Serializable {
     @Id
     private Long stallsId;

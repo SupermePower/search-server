@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 @Setter
 @Getter
 @ToString
-@Document(indexName = "commerce", type = "contract")
+@Document(indexName = "contract", type = "contract")
 public class Contract {
     @Id
     private Long id;

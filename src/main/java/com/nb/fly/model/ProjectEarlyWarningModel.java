@@ -17,7 +17,7 @@ import java.util.Date;
 @Setter
 @Getter
 @ToString
-@Document(indexName = "commerce", type = "early_warning")
+@Document(indexName = "early_warning", type = "early_warning")
 public class ProjectEarlyWarningModel {
     @Id
     private Long id;

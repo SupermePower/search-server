@@ -17,7 +17,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-@Document(indexName = "commerce", type = "merchant")
+@Document(indexName = "merchant", type = "merchant")
 public class MerchantListVO {
 
     @Id

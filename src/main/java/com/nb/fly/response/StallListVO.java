@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@Document(indexName = "commerce", type = "stall")
+@Document(indexName = "stall", type = "stall")
 public class StallListVO {
 
     @Id
