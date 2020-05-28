@@ -3,6 +3,7 @@ package com.nb.fly.controller;
 import com.nb.fly.request.QueryHospitalRequest;
 import com.nb.fly.request.SaveHospitalRequest;
 import com.nb.fly.response.HospitalVO;
+import com.nb.fly.response.ResponseVO;
 import com.nb.fly.service.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +23,13 @@ public class HospitalController {
     private HospitalService hospitalService;
 
     @PostMapping
-    public String save(@RequestBody SaveHospitalRequest request) {
+    public ResponseVO save(@RequestBody SaveHospitalRequest request) {
         hospitalService.save(request);
-        return "SUCCESS";
+        return new ResponseVO();
     }
 
     @GetMapping
-    public List<HospitalVO> getHospital(QueryHospitalRequest request) {
-        return hospitalService.getHospital(request);
+    public ResponseVO<List<HospitalVO>> getHospital(QueryHospitalRequest request) {
+        return new ResponseVO<List<HospitalVO>>().success(hospitalService.getHospital(request));
     }
 }
