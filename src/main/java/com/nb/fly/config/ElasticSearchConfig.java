@@ -28,8 +28,6 @@ public class ElasticSearchConfig {
             Settings esSetting = Settings.builder()
                     // 集群名字
                     .put("cluster.name", "video-search")
-                    // 增加嗅探机制，找到ES集群
-//                    .put("client.transport.sniff", true)
                     // 增加线程池个数，暂时设为5
                     .put("thread_pool.search.size", 5)
                     .build();
