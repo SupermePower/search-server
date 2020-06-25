@@ -2,6 +2,7 @@ package com.nb.fly.service.impl;
 
 import com.nb.fly.response.ResponseVO;
 import com.nb.fly.service.UserService;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -40,7 +41,8 @@ public class UserServiceImpl implements UserService {
         queryBuilder.should(nameQuery);
         MatchQueryBuilder namePinYinQuery = QueryBuilders.matchQuery("name.pinyin", keyword);
         queryBuilder.should(namePinYinQuery);
-        SearchResponse userResponse = transportClient.prepareSearch("user")
+        SearchRequestBuilder searchRequest = transportClient.prepareSearch("user");
+        SearchResponse userResponse = searchRequest
                 .setQuery(queryBuilder)
                 .execute()
                 .actionGet();
@@ -51,5 +53,10 @@ public class UserServiceImpl implements UserService {
             result.add(source);
         }
         return new ResponseVO<>().success(result);
+    }
+
+    @Override
+    public ResponseVO synonyms(String keyword) {
+        return null;
     }
 }

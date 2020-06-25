@@ -24,4 +24,9 @@ public class UserController {
     public ResponseVO queryUser(@PathVariable String keyword) {
         return userService.queryUser(keyword);
     }
+
+    @GetMapping(path = "/synonyms")
+    public ResponseVO synonyms(String keyword) {
+        return userService.synonyms(keyword);
+    }
 }
