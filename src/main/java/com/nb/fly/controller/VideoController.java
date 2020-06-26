@@ -1,5 +1,6 @@
 package com.nb.fly.controller;
 
+import com.nb.fly.request.SearchVideoRequest;
 import com.nb.fly.response.ResponseVO;
 import com.nb.fly.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,13 @@ public class VideoController {
     @Autowired
     private VideoService videoService;
 
-    @GetMapping
+    @GetMapping(path = "/video")
     private ResponseVO<Map<String, Object>> queryVideo(String scrollId, String keyword) {
         return videoService.queryVideo(scrollId, keyword);
+    }
+
+    @GetMapping
+    public ResponseVO<Map<String, Object>> searchVideo(SearchVideoRequest request) throws Exception {
+        return videoService.searchVideo(request);
     }
 }

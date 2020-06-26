@@ -1,5 +1,6 @@
 package com.nb.fly.service;
 
+import com.nb.fly.request.SearchVideoRequest;
 import com.nb.fly.response.ResponseVO;
 
 import java.util.Map;
@@ -19,4 +20,12 @@ public interface VideoService {
      * @return video list
      */
     ResponseVO<Map<String, Object>> queryVideo(String scrollId, String keyword);
+
+    /**
+     * search video
+     *
+     * @param request scrollId, keyword
+     * @return video collection
+     */
+    ResponseVO<Map<String, Object>> searchVideo(SearchVideoRequest request) throws Exception;
 }
