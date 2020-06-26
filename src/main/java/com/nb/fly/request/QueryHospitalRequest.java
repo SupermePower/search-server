@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @description:
  * @author: Zero
@@ -13,6 +15,8 @@ import lombok.ToString;
 @Getter
 @ToString
 public class QueryHospitalRequest {
+    @NotNull(message = "请获取地理位置")
     private Double longitude;
+    @NotNull(message = "请获取地理位置")
     private Double latitude;
 }

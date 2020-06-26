@@ -97,6 +97,13 @@ public class VideoServiceImpl implements VideoService {
         return new ResponseVO<Map<String, Object>>().success(result);
     }
 
+    /**
+     * get result
+     *
+     * @param searchResponse search response
+     * @param hits           hits
+     * @return result
+     */
     private Map<String, Object> getResult(SearchResponse searchResponse, SearchHits hits) {
         List<VideoVO> videoList = new ArrayList<>();
         for (SearchHit hit : hits) {
@@ -112,6 +119,12 @@ public class VideoServiceImpl implements VideoService {
         return result;
     }
 
+    /**
+     * get search source builder
+     *
+     * @param request request
+     * @return search source builder
+     */
     private SearchSourceBuilder getSearchSourceBuilder(SearchVideoRequest request) {
         MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("videoName", request.getKeyword());
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -121,6 +134,14 @@ public class VideoServiceImpl implements VideoService {
         return searchSourceBuilder;
     }
 
+    /**
+     * Get search response
+     *
+     * @param request             request
+     * @param searchSourceBuilder search source builder
+     * @return search response
+     * @throws IOException io exception
+     */
     private SearchResponse getSearchResponse(SearchVideoRequest request, SearchSourceBuilder searchSourceBuilder) throws IOException {
         SearchResponse searchResponse;
         if (!StringUtils.isEmpty(request.getScrollId())) {
