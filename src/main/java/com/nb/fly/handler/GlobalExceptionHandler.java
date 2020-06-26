@@ -19,21 +19,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(Throwable.class)
-    public ResponseVO handleException(Exception e){
-        if (e instanceof MethodArgumentNotValidException) {
-            log.error("search data MethodArgumentNotValidException");
-            MethodArgumentNotValidException argumentNotValidException = (MethodArgumentNotValidException)e;
-            FieldError fieldError = argumentNotValidException.getBindingResult().getFieldError();
-            return new ResponseVO().error(fieldError.getDefaultMessage());
-        }
+    private String defaultExceptionMessage = "System Exception";
 
-        if (e instanceof BindException) {
-            log.error("search data BindException");
-            BindException bindException = (BindException)e;
-            FieldError fieldError = bindException.getBindingResult().getFieldError();
-            return new ResponseVO().error(fieldError.getDefaultMessage());
-        }
-        return new ResponseVO().error("System Exception Please Call Admin");
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseVO handleException(MethodArgumentNotValidException e) {
+        log.error("search data MethodArgumentNotValidException");
+        FieldError fieldError = e.getBindingResult().getFieldError();
+        return new ResponseVO().error(fieldError != null ? fieldError.getDefaultMessage() : defaultExceptionMessage);
+    }
+
+    @ExceptionHandler(BindException.class)
+    public ResponseVO handleException(BindException e) {
+        log.error("search data BindException");
+        FieldError fieldError = e.getBindingResult().getFieldError();
+        return new ResponseVO().error(fieldError != null ? fieldError.getDefaultMessage() : defaultExceptionMessage);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseVO handleException(Exception e) {
+        log.error("search data Exception", e);
+        return new ResponseVO().error(defaultExceptionMessage);
     }
 }

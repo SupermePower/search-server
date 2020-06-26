@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -26,13 +27,24 @@ public class HospitalController {
     private HospitalService hospitalService;
 
     @PostMapping
-    public ResponseVO save(@RequestBody SaveHospitalRequest request) {
+    public ResponseVO save(@RequestBody @Valid SaveHospitalRequest request) {
         hospitalService.save(request);
+        return new ResponseVO();
+    }
+
+    @PostMapping(path = "/create")
+    public ResponseVO create(@RequestBody @Valid SaveHospitalRequest request) throws Exception {
+        hospitalService.create(request);
         return new ResponseVO();
     }
 
     @GetMapping
     public ResponseVO<List<HospitalVO>> getHospital(@Validated QueryHospitalRequest request) {
         return new ResponseVO<List<HospitalVO>>().success(hospitalService.getHospital(request));
+    }
+
+    @GetMapping(path = "/search")
+    public ResponseVO<List<HospitalVO>> searchHospital(@Validated QueryHospitalRequest request) throws Exception {
+        return new ResponseVO<List<HospitalVO>>().success(hospitalService.searchHospital(request));
     }
 }

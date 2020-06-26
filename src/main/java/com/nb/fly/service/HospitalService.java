@@ -12,7 +12,12 @@ import java.util.List;
  * @date: 2020/5/21 下午10:08
  */
 public interface HospitalService {
+
     void save(SaveHospitalRequest request);
 
     List<HospitalVO> getHospital(QueryHospitalRequest request);
+
+    List<HospitalVO> searchHospital(QueryHospitalRequest request) throws Exception;
+
+    void create(SaveHospitalRequest request) throws Exception;
 }
