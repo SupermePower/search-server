@@ -11,6 +11,7 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -40,6 +41,11 @@ public class VideoServiceImpl implements VideoService {
     @Autowired
     private RestHighLevelClient highLevelClient;
 
+    /**
+     * scroll id alive time
+     */
+    private final String SCROLL_ALIVE_TIME = "10m";
+
     @Override
     public ResponseVO<Map<String, Object>> queryVideo(String scrollId, String keyword) {
         MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("videoName", keyword);
@@ -48,12 +54,12 @@ public class VideoServiceImpl implements VideoService {
             searchResponse = transportClient.prepareSearch("video_item")
                     .setQuery(matchQueryBuilder)
                     .setSize(5)
-                    .setScroll("10m")
+                    .setScroll(SCROLL_ALIVE_TIME)
                     .execute()
                     .actionGet();
         } else {
             searchResponse = transportClient.prepareSearchScroll(scrollId)
-                    .setScroll("10m")
+                    .setScroll(SCROLL_ALIVE_TIME)
                     .execute()
                     .actionGet();
         }
@@ -111,6 +117,7 @@ public class VideoServiceImpl implements VideoService {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(matchQueryBuilder);
         searchSourceBuilder.size(5);
+        searchSourceBuilder.timeout(TimeValue.timeValueSeconds(30));
         return searchSourceBuilder;
     }
 
@@ -118,14 +125,14 @@ public class VideoServiceImpl implements VideoService {
         SearchResponse searchResponse;
         if (!StringUtils.isEmpty(request.getScrollId())) {
             SearchScrollRequest searchScrollRequest = new SearchScrollRequest();
-            searchScrollRequest.scroll("10m");
+            searchScrollRequest.scroll(SCROLL_ALIVE_TIME);
             searchScrollRequest.scrollId(request.getScrollId());
             searchResponse = highLevelClient.scroll(searchScrollRequest, RequestOptions.DEFAULT);
         } else {
             SearchRequest searchRequest = new SearchRequest();
             searchRequest.searchType(SearchType.QUERY_THEN_FETCH);
             searchRequest.source(searchSourceBuilder);
-            searchRequest.scroll("10m");
+            searchRequest.scroll(SCROLL_ALIVE_TIME);
             searchRequest.indices("video_item");
             searchResponse = highLevelClient.search(searchRequest, RequestOptions.DEFAULT);
         }
