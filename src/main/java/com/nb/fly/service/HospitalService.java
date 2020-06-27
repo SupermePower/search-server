@@ -2,9 +2,8 @@ package com.nb.fly.service;
 
 import com.nb.fly.request.QueryHospitalRequest;
 import com.nb.fly.request.SaveHospitalRequest;
-import com.nb.fly.response.HospitalVO;
-
-import java.util.List;
+import com.nb.fly.request.UpdateHospitalRequest;
+import com.nb.fly.response.HospitalListVO;
 
 /**
  * @description:
@@ -13,11 +12,9 @@ import java.util.List;
  */
 public interface HospitalService {
 
-    void save(SaveHospitalRequest request);
-
-    List<HospitalVO> getHospital(QueryHospitalRequest request);
-
-    List<HospitalVO> searchHospital(QueryHospitalRequest request) throws Exception;
+    HospitalListVO searchHospital(QueryHospitalRequest request) throws Exception;
 
     void create(SaveHospitalRequest request) throws Exception;
+
+    void update(UpdateHospitalRequest request) throws Exception;
 }

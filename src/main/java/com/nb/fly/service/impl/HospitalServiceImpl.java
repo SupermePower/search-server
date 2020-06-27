@@ -1,34 +1,32 @@
 package com.nb.fly.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.nb.fly.helper.DistanceHelper;
 import com.nb.fly.idworker.IdWorker;
 import com.nb.fly.model.Hospital;
 import com.nb.fly.model.Position;
 import com.nb.fly.repository.HospitalRepository;
 import com.nb.fly.request.QueryHospitalRequest;
 import com.nb.fly.request.SaveHospitalRequest;
+import com.nb.fly.request.UpdateHospitalRequest;
+import com.nb.fly.response.HospitalListVO;
 import com.nb.fly.response.HospitalVO;
 import com.nb.fly.service.HospitalService;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchScrollRequest;
+import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.GeoDistanceSortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,11 +54,8 @@ public class HospitalServiceImpl implements HospitalService {
 
     private final String TYPE_NAME = "hospital";
 
-    @Override
-    public void save(SaveHospitalRequest request) {
-        Hospital hospital = getHospital(request);
-        hospitalRepository.save(hospital);
-    }
+    private final String SCROLL_ALIVE_TIME = "1d";
+
 
     private Hospital getHospital(SaveHospitalRequest request) {
         Hospital hospital = new Hospital();
@@ -71,25 +66,6 @@ public class HospitalServiceImpl implements HospitalService {
         position.setLon(request.getLongitude());
         hospital.setPosition(position);
         return hospital;
-    }
-
-    @Override
-    public List<HospitalVO> getHospital(QueryHospitalRequest request) {
-        NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
-        GeoDistanceSortBuilder distanceSortBuilder = new GeoDistanceSortBuilder("position", request.getLatitude(), request.getLongitude());
-        distanceSortBuilder.unit(DistanceUnit.KILOMETERS);
-        distanceSortBuilder.order(SortOrder.ASC);
-        nativeSearchQueryBuilder.withSort(distanceSortBuilder);
-        Page<Hospital> search = hospitalRepository.search(nativeSearchQueryBuilder.build());
-        List<Hospital> content = search.getContent();
-        List<HospitalVO> hospitalVOS = new ArrayList<>();
-        for (Hospital hospital : content) {
-            HospitalVO hospitalVO = new HospitalVO();
-            BeanUtils.copyProperties(hospital, hospitalVO);
-            hospitalVO.setDistance(DistanceHelper.getDistance(request.getLongitude(), request.getLatitude(), hospital.getPosition().getLon().doubleValue(), hospital.getPosition().getLat().doubleValue()));
-            hospitalVOS.add(hospitalVO);
-        }
-        return hospitalVOS;
     }
 
     @Override
@@ -114,26 +90,64 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
     @Override
-    public List<HospitalVO> searchHospital(QueryHospitalRequest request) throws Exception {
+    public void update(UpdateHospitalRequest request) throws Exception {
+        UpdateRequest updateRequest = getUpdateRequest(request);
+        hospitalRepository.update(updateRequest);
+    }
+
+    private UpdateRequest getUpdateRequest(UpdateHospitalRequest request) {
+        UpdateRequest updateRequest = new UpdateRequest();
+        updateRequest.index(INDEX_NAME);
+        updateRequest.type(TYPE_NAME);
+        updateRequest.timeout("10s");
+        updateRequest.id(request.getId());
+        updateRequest.doc(JSONObject.parseObject(JSON.toJSONString(request), Map.class));
+        return updateRequest;
+    }
+
+    @Override
+    public HospitalListVO searchHospital(QueryHospitalRequest request) throws Exception {
+        HospitalListVO response = new HospitalListVO();
+        List<HospitalVO> result = new ArrayList<>();
+        if (StringUtils.isEmpty(request.getScrollId())) {
+            SearchRequest searchRequest = getHospitalListSearchRequest(request);
+            Map<String, Object> stringObjectMap = hospitalRepository.hospitalList(searchRequest);
+            ((List)stringObjectMap.get("list")).forEach(hospital -> {
+                result.add(JSONObject.parseObject(JSON.toJSONString(hospital), HospitalVO.class));
+            });
+            response.setList(result);
+            response.setScrollId(stringObjectMap.get("scrollId").toString());
+        } else {
+            SearchScrollRequest searchScrollRequest = getHospitalListSearchScrollRequest(request);
+            Map<String, Object> stringObjectMap = hospitalRepository.hospitalList(searchScrollRequest);
+            ((List)stringObjectMap.get("list")).forEach(hospital -> {
+                result.add(JSONObject.parseObject(JSON.toJSONString(hospital), HospitalVO.class));
+            });
+            response.setList(result);
+            response.setScrollId(stringObjectMap.get("scrollId").toString());
+        }
+        return response;
+    }
+
+    private SearchRequest getHospitalListSearchRequest(QueryHospitalRequest request) {
         QueryBuilder matchAllQueryBuilder = QueryBuilders.matchAllQuery();
         GeoDistanceSortBuilder geoDistanceSort = SortBuilders.geoDistanceSort("position", request.getLatitude(), request.getLongitude());
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(matchAllQueryBuilder);
         searchSourceBuilder.sort(geoDistanceSort);
+        searchSourceBuilder.size(1);
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.indices(INDEX_NAME);
         searchRequest.types(TYPE_NAME);
+        searchRequest.scroll(SCROLL_ALIVE_TIME);
         searchRequest.source(searchSourceBuilder);
-        SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-        SearchHits hits = searchResponse.getHits();
-        List<HospitalVO> hospitalList = new ArrayList<>();
-        for (SearchHit hit : hits) {
-            Map<String, Object> hospitalMap = hit.getSourceAsMap();
-            HospitalVO hospitalVO = JSONObject.parseObject(JSONObject.toJSONString(hospitalMap), HospitalVO.class);
-            Map<String, Double> position = (Map<String, Double>) hospitalMap.get("position");
-            hospitalVO.setDistance(DistanceHelper.getDistance(request.getLongitude(), request.getLatitude(), position.get("lon"), position.get("lat")));
-            hospitalList.add(hospitalVO);
-        }
-        return hospitalList;
+        return searchRequest;
+    }
+
+    private SearchScrollRequest getHospitalListSearchScrollRequest(QueryHospitalRequest request) {
+        SearchScrollRequest searchScrollRequest = new SearchScrollRequest();
+        searchScrollRequest.scrollId(request.getScrollId());
+        searchScrollRequest.scroll(SCROLL_ALIVE_TIME);
+        return searchScrollRequest;
     }
 }

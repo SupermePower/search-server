@@ -1,8 +1,11 @@
 package com.nb.fly.repository;
 
-import com.nb.fly.model.Hospital;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchScrollRequest;
+import org.elasticsearch.action.update.UpdateRequest;
 import org.springframework.stereotype.Repository;
+
+import java.util.Map;
 
 /**
  * @description:
@@ -10,5 +13,18 @@ import org.springframework.stereotype.Repository;
  * @date: 2020/5/21 下午10:09
  */
 @Repository
-public interface HospitalRepository extends ElasticsearchRepository<Hospital, Long> {
+public interface HospitalRepository {
+
+    /**
+     * search hospital list
+     *
+     * @param request search request
+     * @return hospital list
+     * @throws Exception e
+     */
+    Map<String, Object> hospitalList(SearchRequest request) throws Exception;
+
+    Map<String, Object> hospitalList(SearchScrollRequest request) throws Exception;
+
+    void update(UpdateRequest request) throws Exception;
 }
