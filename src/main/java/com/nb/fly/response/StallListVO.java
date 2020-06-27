@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * 档口列表VO类
- * @author fly
+ * @author Mr.Fu
  * @date 2019-05-07 10:17
  */
 @Getter

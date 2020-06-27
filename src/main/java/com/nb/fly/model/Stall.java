@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
- * @author fly
+ * @author Mr.Fu
  * @description 档口数据
  * @date 2019/5/6 18:14
  */

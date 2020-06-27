@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @description: 联想词业务
- * @author: Zero
+ * @author: Mr.Fu
  * @date: 2020/5/28 下午4:28
  */
 public interface AssociativeWordsService {

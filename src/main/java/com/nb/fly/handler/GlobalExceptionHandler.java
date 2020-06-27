@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @description: global exception handler
- * @author: Zero
+ * @author: Mr.Fu
  * @date: 2020/6/26 下午8:54
  */
 @ControllerAdvice

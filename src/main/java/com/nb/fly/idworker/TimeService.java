@@ -3,7 +3,7 @@ package com.nb.fly.idworker;
 /**
  * 时间服务.
  * 
- * @author fly
+ * @author Mr.Fu
  */
 public class TimeService {
     

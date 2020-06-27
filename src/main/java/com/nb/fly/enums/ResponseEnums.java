@@ -2,7 +2,7 @@ package com.nb.fly.enums;
 
 /**
  * @description: 响应信息枚举
- * @author: Zero
+ * @author: Mr.Fu
  * @date: 2020/5/28 下午4:07
  */
 public enum  ResponseEnums {

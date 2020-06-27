@@ -12,7 +12,7 @@ import java.net.InetAddress;
 
 /**
  * @description: ES配置
- * @author: Zero
+ * @author: Mr.Fu
  * @date: 2020/5/28 下午4:59
  */
 @Configuration

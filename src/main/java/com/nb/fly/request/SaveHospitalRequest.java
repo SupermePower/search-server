@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @description: create hospital request
- * @author: Zero
+ * @author: Mr.Fu
  * @date: 2020/5/21 下午10:07
  */
 @Setter

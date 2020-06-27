@@ -6,7 +6,7 @@ import lombok.ToString;
 
 /**
  * @description: video view object
- * @author: Zero
+ * @author: Mr.Fu
  * @date: 2020/6/25 下午8:35
  */
 @Setter

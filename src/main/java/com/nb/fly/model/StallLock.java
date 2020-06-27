@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import java.sql.Timestamp;
 
 /**
- * @author liying.fu
+ * @author Mr.Fu
  * @description 档口锁定信息
  * @date 2019/5/6 下午11:39
  */

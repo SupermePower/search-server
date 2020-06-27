@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * @description: 档口集合
- * @author: liying.fu
+ * @author: Mr.Fu
  * @date: 2019/5/7 下午11:15
  */
 @Repository

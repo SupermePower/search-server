@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 /**
  * @description:
- * @author: Zero
+ * @author: Mr.Fu
  * @date: 2020/5/21 下午10:05
  */
 @Api(tags = "Hospital", description = "Hospital")

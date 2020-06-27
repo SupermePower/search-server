@@ -5,7 +5,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import org.springframework.stereotype.Repository;
 
 /**
- * @author liying.fu
+ * @author Mr.Fu
  * @description 档口锁定数据仓库
  * @date 2019/5/6 下午11:51
  */

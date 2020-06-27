@@ -27,7 +27,7 @@ import java.util.Date;
  * 可以调用@{@code DefaultIdWorker.setWorkerId}进行设置
  * </p>
  *
- * @author fly
+ * @author Mr.Fu
  */
 @Component
 @Slf4j

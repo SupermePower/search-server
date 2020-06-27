@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @description: query hospital request
- * @author: Zero
+ * @author: Mr.Fu
  * @date: 2020/5/21 下午10:47
  */
 @Setter

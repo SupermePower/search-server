@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.GeoPointField;
 
 /**
  * @description:
- * @author: Zero
+ * @author: Mr.Fu
  * @date: 2020/5/21 下午1:37
  */
 @Setter

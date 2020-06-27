@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
- * @author liying.fu
+ * @author Mr.Fu
  * @description 签约信息
  * @date 2019/5/6 下午11:26
  */

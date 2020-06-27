@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 
 /**
  * @description: search video request
- * @author: Zero
+ * @author: Mr.Fu
  * @date: 2020/6/26 下午12:37
  */
 @Setter

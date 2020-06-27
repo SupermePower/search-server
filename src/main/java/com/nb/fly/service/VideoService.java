@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * @description: video service
- * @author: Zero
+ * @author: Mr.Fu
  * @date: 2020/6/25 下午8:37
  */
 public interface VideoService {
